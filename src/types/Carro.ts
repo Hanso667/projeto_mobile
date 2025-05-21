@@ -2,8 +2,7 @@ type Carro = {
     carro_id: string;
     modelo: string;
     valor: number;
-    marca: string;
-    novo: boolean;
+    marca_id: string;
 }
 
 type Marca_Carro = {

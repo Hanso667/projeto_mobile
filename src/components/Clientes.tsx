@@ -1,52 +1,49 @@
 import React, { useState, useEffect } from 'react';
 import { Alert, FlatList, Image, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 import { styles } from '../styles/styles';
-import { Usuario } from '../types/Usuario';
+import { Cliente } from '../types/Cliente';
 import HomeNavigator, { UsuariosProps } from '../navigation/HomeNavigator';
 import firestore from "@react-native-firebase/firestore";
 
-const AddUsuario = () => {
+const AddCliente = () => {
 
     const [nome, setNome] = useState('');
-    const [email, setEmail] = useState('');
-    const [senha, setSenha] = useState('');
-    const [cSenha, setCsenha] = useState('');
+    const [endereco, setEndereco] = useState('');
+    const [cpf, setCpf] = useState('');
 
     function verificaCampos() {
         if (!nome) {
             Alert.alert('Aviso', 'valor para nome vazio')
             return false;
         }
-        if (!email) {
-            Alert.alert('Aviso', 'valor para email vazio')
+        if (!endereco) {
+            Alert.alert('Aviso', 'valor para endereco vazio')
             return false;
         }
-        if (!senha) {
-            Alert.alert('Aviso', 'valor para senha vazio')
-            return false;
-        }
-        if (senha != cSenha) {
-            Alert.alert('Aviso', 'as senhas não estão iguais')
+        if (!cpf) {
+            Alert.alert('Aviso', 'valor para cpf vazio')
             return false;
         }
         return true;
     }
+
+
     function cadastrar() {
         if (verificaCampos()) {
             //crie um objeto do tipo Produto
-            let usuario = {
+            let cliente = {
                 nome: nome,
-                email: email,
-                senha: senha,
-            } as Usuario;
+                endereco: endereco,
+                cpf: cpf,
+            } as Cliente;
 
 
             //adiciona o objeto produto na tabela produtos
             firestore()
-                .collection('usuarios')
-                .add(usuario)
+                .collection('clientes')
+                .add(cliente)
                 .then(() => {
-                    Alert.alert("Paciente", "Cadastrado com sucesso!");
+                    Alert.alert("cliente", "Cadastrado com sucesso!");
                 })
                 .catch((error) => {
                     Alert.alert("Erro", String(error));
@@ -71,24 +68,15 @@ const AddUsuario = () => {
             <Text style={styles.texto_01}> Email </Text>
             <TextInput
                 style={styles.TextInput}
-                value={email}
-                onChangeText={setEmail}>
+                value={endereco}
+                onChangeText={setEndereco}>
             </TextInput>
 
             <Text style={styles.texto_01}> Senha </Text>
             <TextInput
                 style={styles.TextInput}
-                value={senha}
-                onChangeText={setSenha}
-                secureTextEntry={true}>
-            </TextInput>
-
-            <Text style={styles.texto_01}> Confirmar Senha</Text>
-            <TextInput
-                style={styles.TextInput}
-                value={cSenha}
-                onChangeText={setCsenha}
-                secureTextEntry={true}>
+                value={cpf}
+                onChangeText={setCpf}>
             </TextInput>
 
             <Pressable
@@ -105,38 +93,38 @@ type onAlterar ={
  onAlt: () => void
 }
 
-const ListUsuario = (props: onAlterar) => {
+const ListCliente = (props: onAlterar) => {
 
-    const [usuarios, setUsuarios] = useState<Usuario[]>([]);
+    const [usuarios, setUsuarios] = useState<Cliente[]>([]);
 
-    function DeletarUsuario(id: string) {
+    function DeletarCliente(id: string) {
         firestore()
-            .collection('usuarios')
+            .collection('clientes')
             .doc(id)
             .delete()
             .then(() => {
-                Alert.alert("Paciente", "Removido com sucesso")
+                Alert.alert("cliente", "Removido com sucesso")
             })
             .catch((error) => console.log(error));
     }
 
 
 
-    function AlterarUsuario() {
+    function AlterarCliente() {
         props.onAlt()
     }
 
     useEffect(() => {
         const subscribe = firestore()
-            .collection('usuarios')
+            .collection('clientes')
             .onSnapshot(querySnapshot => {
                 const data = querySnapshot.docs.map(doc => {
                     return {
-                        usuario_id: doc.id,
+                        cliente_id: doc.id,
                         ...doc.data()
                     }
 
-                }) as Usuario[];
+                }) as Cliente[];
 
                 setUsuarios(data);
             });
@@ -151,16 +139,16 @@ const ListUsuario = (props: onAlterar) => {
                 renderItem={(Usuario) =>
                     <ItemUsuario
                         index={Usuario.index + 1}
-                        usuario={Usuario.item}
-                        onAlterar={AlterarUsuario}
-                        onDeletar={DeletarUsuario}
+                        cliente={Usuario.item}
+                        onAlterar={AlterarCliente}
+                        onDeletar={DeletarCliente}
                     />} />
         </View>
     )
 }
 type ItemUsuarioProps = {
     index: number;
-    usuario: Usuario;
+    cliente: Cliente;
     onDeletar: (id: string) => void;
     onAlterar: (id: string) => void;
 }
@@ -174,19 +162,19 @@ const ItemUsuario = (props: ItemUsuarioProps) => {
             <View style={styles.card}>
 
                 <Text style={{ fontSize: 20 }}>
-                    Id: {props.usuario.usuario_id} {' '}
+                    Id: {props.cliente.cliente_id} {' '}
                 </Text>
 
                 <Text style={{ fontSize: 20 }}>
-                    nome: {props.usuario.nome} {' '}
+                    nome: {props.cliente.nome} {' '}
                 </Text>
 
                 <Text style={{ fontSize: 20 }}>
-                    email: {props.usuario.email} {' '}
+                    email: {props.cliente.endereco} {' '}
                 </Text>
 
                 <Text style={{ fontSize: 20 }}>
-                    senha: {props.usuario.senha} {' '}
+                    senha: {props.cliente.cpf} {' '}
                 </Text>
 
             </View>
@@ -197,7 +185,7 @@ const ItemUsuario = (props: ItemUsuarioProps) => {
                     style={[styles.botoes_card, styles.botao_deletar]}>
 
                     <Pressable
-                        onPress={() => props.onDeletar(props.usuario.usuario_id)}>
+                        onPress={() => props.onDeletar(props.cliente.cliente_id)}>
 
                         <Text style={styles.Texto_botao}>
                             Deletar
@@ -209,7 +197,7 @@ const ItemUsuario = (props: ItemUsuarioProps) => {
 
                 <View style={[styles.botoes_card, styles.botao_alterar]}>
                     <Pressable
-                        onPress={() => props.onAlterar(props.usuario.usuario_id)}>
+                        onPress={() => props.onAlterar(props.cliente.cliente_id)}>
                         <Text style={[styles.Texto_botao, { color: 'black' }]}>
                             Alterar
                         </Text>
@@ -220,4 +208,4 @@ const ItemUsuario = (props: ItemUsuarioProps) => {
     );
 }
 
-export { AddUsuario, ListUsuario }; 
+export { AddCliente, ListCliente }; 

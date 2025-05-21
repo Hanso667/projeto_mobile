@@ -1,52 +1,49 @@
 import React, { useState, useEffect } from 'react';
 import { Alert, FlatList, Image, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 import { styles } from '../styles/styles';
-import { Usuario } from '../types/Usuario';
+import { Carro } from '../types/Carro';
 import HomeNavigator, { UsuariosProps } from '../navigation/HomeNavigator';
 import firestore from "@react-native-firebase/firestore";
 
-const AddUsuario = () => {
+const AddCarros = () => {
 
-    const [nome, setNome] = useState('');
-    const [email, setEmail] = useState('');
-    const [senha, setSenha] = useState('');
-    const [cSenha, setCsenha] = useState('');
+    const [modelo, setmodelo] = useState('');
+    const [valor, setValor] = useState('');
+    const [marca_id, setMarca_id] = useState('');
 
     function verificaCampos() {
-        if (!nome) {
+        if (!modelo) {
             Alert.alert('Aviso', 'valor para nome vazio')
             return false;
         }
-        if (!email) {
-            Alert.alert('Aviso', 'valor para email vazio')
+        if (!valor) {
+            Alert.alert('Aviso', 'valor para endereco vazio')
             return false;
         }
-        if (!senha) {
-            Alert.alert('Aviso', 'valor para senha vazio')
-            return false;
-        }
-        if (senha != cSenha) {
-            Alert.alert('Aviso', 'as senhas não estão iguais')
+        if (!marca_id) {
+            Alert.alert('Aviso', 'valor para cpf vazio')
             return false;
         }
         return true;
     }
+
+
     function cadastrar() {
         if (verificaCampos()) {
             //crie um objeto do tipo Produto
-            let usuario = {
-                nome: nome,
-                email: email,
-                senha: senha,
-            } as Usuario;
+            let carro = {
+                modelo: modelo,
+                valor: parseFloat(valor),
+                marca_id: marca_id,
+            } as Carro;
 
 
             //adiciona o objeto produto na tabela produtos
             firestore()
-                .collection('usuarios')
-                .add(usuario)
+                .collection('carros')
+                .add(carro)
                 .then(() => {
-                    Alert.alert("Paciente", "Cadastrado com sucesso!");
+                    Alert.alert("carro", "Cadastrado com sucesso!");
                 })
                 .catch((error) => {
                     Alert.alert("Erro", String(error));
@@ -64,31 +61,22 @@ const AddUsuario = () => {
             <Text style={styles.texto_01}> Nome </Text>
             <TextInput
                 style={styles.TextInput}
-                value={nome}
-                onChangeText={setNome}>
+                value={modelo}
+                onChangeText={setmodelo}>
             </TextInput>
 
             <Text style={styles.texto_01}> Email </Text>
             <TextInput
                 style={styles.TextInput}
-                value={email}
-                onChangeText={setEmail}>
+                value={valor}
+                onChangeText={setValor}>
             </TextInput>
 
             <Text style={styles.texto_01}> Senha </Text>
             <TextInput
                 style={styles.TextInput}
-                value={senha}
-                onChangeText={setSenha}
-                secureTextEntry={true}>
-            </TextInput>
-
-            <Text style={styles.texto_01}> Confirmar Senha</Text>
-            <TextInput
-                style={styles.TextInput}
-                value={cSenha}
-                onChangeText={setCsenha}
-                secureTextEntry={true}>
+                value={marca_id}
+                onChangeText={setMarca_id}>
             </TextInput>
 
             <Pressable
@@ -105,40 +93,40 @@ type onAlterar ={
  onAlt: () => void
 }
 
-const ListUsuario = (props: onAlterar) => {
+const ListCarros = (props: onAlterar) => {
 
-    const [usuarios, setUsuarios] = useState<Usuario[]>([]);
+    const [carros, setCarros] = useState<Carro[]>([]);
 
-    function DeletarUsuario(id: string) {
+    function DeletarCliente(id: string) {
         firestore()
-            .collection('usuarios')
+            .collection('carros')
             .doc(id)
             .delete()
             .then(() => {
-                Alert.alert("Paciente", "Removido com sucesso")
+                Alert.alert("carro", "Removido com sucesso")
             })
             .catch((error) => console.log(error));
     }
 
 
 
-    function AlterarUsuario() {
+    function AlterarCliente() {
         props.onAlt()
     }
 
     useEffect(() => {
         const subscribe = firestore()
-            .collection('usuarios')
+            .collection('carros')
             .onSnapshot(querySnapshot => {
                 const data = querySnapshot.docs.map(doc => {
                     return {
-                        usuario_id: doc.id,
+                        carro_id: doc.id,
                         ...doc.data()
                     }
 
-                }) as Usuario[];
+                }) as Carro[];
 
-                setUsuarios(data);
+                setCarros(data);
             });
 
         return () => subscribe();
@@ -147,20 +135,20 @@ const ListUsuario = (props: onAlterar) => {
     return (
         <View style={styles.lista_01}>
             <FlatList
-                data={usuarios}
-                renderItem={(Usuario) =>
+                data={carros}
+                renderItem={(Carro) =>
                     <ItemUsuario
-                        index={Usuario.index + 1}
-                        usuario={Usuario.item}
-                        onAlterar={AlterarUsuario}
-                        onDeletar={DeletarUsuario}
+                        index={Carro.index + 1}
+                        carro={Carro.item}
+                        onAlterar={AlterarCliente}
+                        onDeletar={DeletarCliente}
                     />} />
         </View>
     )
 }
 type ItemUsuarioProps = {
     index: number;
-    usuario: Usuario;
+    carro: Carro;
     onDeletar: (id: string) => void;
     onAlterar: (id: string) => void;
 }
@@ -174,20 +162,17 @@ const ItemUsuario = (props: ItemUsuarioProps) => {
             <View style={styles.card}>
 
                 <Text style={{ fontSize: 20 }}>
-                    Id: {props.usuario.usuario_id} {' '}
+                    Id: {props.carro.modelo} {' '}
                 </Text>
 
                 <Text style={{ fontSize: 20 }}>
-                    nome: {props.usuario.nome} {' '}
+                    nome: {props.carro.valor} {' '}
                 </Text>
 
                 <Text style={{ fontSize: 20 }}>
-                    email: {props.usuario.email} {' '}
+                    email: {props.carro.marca_id} {' '}
                 </Text>
 
-                <Text style={{ fontSize: 20 }}>
-                    senha: {props.usuario.senha} {' '}
-                </Text>
 
             </View>
 
@@ -197,7 +182,7 @@ const ItemUsuario = (props: ItemUsuarioProps) => {
                     style={[styles.botoes_card, styles.botao_deletar]}>
 
                     <Pressable
-                        onPress={() => props.onDeletar(props.usuario.usuario_id)}>
+                        onPress={() => props.onDeletar(props.carro.carro_id)}>
 
                         <Text style={styles.Texto_botao}>
                             Deletar
@@ -209,7 +194,7 @@ const ItemUsuario = (props: ItemUsuarioProps) => {
 
                 <View style={[styles.botoes_card, styles.botao_alterar]}>
                     <Pressable
-                        onPress={() => props.onAlterar(props.usuario.usuario_id)}>
+                        onPress={() => props.onAlterar(props.carro.carro_id)}>
                         <Text style={[styles.Texto_botao, { color: 'black' }]}>
                             Alterar
                         </Text>
@@ -220,4 +205,4 @@ const ItemUsuario = (props: ItemUsuarioProps) => {
     );
 }
 
-export { AddUsuario, ListUsuario }; 
+export { AddCarros, ListCarros }; 

@@ -7,7 +7,7 @@ type Venda = {
 type Carro_venda = {
     carro_id: string;
     venda_id: string;
-    quantidae: number;
+    quantidade: number;
     valor: number;
 }
 
