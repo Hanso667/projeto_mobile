@@ -1,24 +1,38 @@
 import React, { useState } from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
-import { PrincipalProps } from '../navigation/HomeNavigator';
+import { Alert, Image, Pressable, StyleSheet, Text, View } from 'react-native';
+import HomeNavigator, { PrincipalProps } from '../navigation/HomeNavigator';
 import { styles } from '../styles/styles';
-import Exemplo01 from '../components/Exemplo01';
-import Exemplo1 from '../components/Exemplo1';
-import Exemplo05_Text from '../components/Exemplo05_Text';
-import Exemplo06_TextInput from '../components/Exemplo06_TextInput';
-import Exemplo07_Image from '../components/Exemplo07_Image';
+import { useNavigation } from '@react-navigation/native';
 
-//Componente chamado TelaPrincipal que recebe 
-//PrincipalProps 
-//como parametro e constrói uma View com o componente 
-//HelloWorld e Exemplo1 dentro
+
 const TelaPrincipal = (props: PrincipalProps) => {
-  
   return (
-    <View
-      style={[styles.tela]}>
-        <Exemplo07_Image/>
-        {/* <Exemplo1/> */}
+    <View style={styles.tela}>
+
+      <Pressable
+        style={({ pressed }) => [styles.botao_01, pressed && styles.click]}
+        onPress={() => props.navigation.navigate('TelaVendas')}>
+        <Text style={styles.Texto_botao}>Vendas</Text>
+      </Pressable>
+
+      <Pressable
+        style={({ pressed }) => [styles.botao_01, pressed && styles.click]}
+        onPress={() => props.navigation.navigate('TelaCarros')}>
+        <Text style={styles.Texto_botao}>Carros</Text>
+      </Pressable>
+
+      <Pressable
+        style={({ pressed }) => [styles.botao_01, pressed && styles.click]}
+        onPress={() => props.navigation.navigate('TelaClientes')}>
+        <Text style={styles.Texto_botao}>Clientes</Text>
+      </Pressable>
+
+      <Pressable
+        style={({ pressed }) => [styles.botao_01, pressed && styles.click]}
+        onPress={() => props.navigation.navigate('TelaUsuarios')}>
+        <Text style={styles.Texto_botao}>Usuarios</Text>
+      </Pressable>
+
     </View>
   );
 }

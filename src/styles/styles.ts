@@ -1,85 +1,86 @@
 import { StyleSheet } from "react-native";
 
-//o StyleSheet é a folha de estilo, equivalente ao css
 const styles = StyleSheet.create({
+
     tela: {
         flex: 1, 
-       // backgroundColor: '#00FFFF' 
+        justifyContent: "center",
+        backgroundColor: '#fffede',
     },
-    tituloTela: {
-      fontSize: 35, 
-      textAlign: 'center',
-      color: 'black' 
-    },
-    titulo1: {
-        fontSize: 40,
-        fontWeight: 'bold',
-        color: 'black'
-    },
-    titulo2: {
-        fontSize: 30,
-        fontWeight: 'bold',
-        color: 'black'
-    },
-    botao: {
-        justifyContent: 'center',
-        alignItems:'center',
-        width: 'auto',
-        backgroundColor: 'green',
-        paddingVertical: 10,
-        paddingHorizontal: 30,
-        marginTop: 20,
-        borderRadius: 10
-    },
-    botao_vermelho: {
-      justifyContent: 'center',
-      alignItems:'center',
-      backgroundColor: 'red',
-      paddingVertical: 10,
-      paddingHorizontal: 30,
-      marginTop: 20,
-      borderRadius: 10
-    },
-    texto_botao: {
-        fontSize: 20,
-        color: 'white'
-    },
-    titulo_campos: {
-      fontSize: 20,
-      color: 'black'
-    },
-    caixa_texto: {
-        color: 'black',
-        fontSize: 20,
-        borderWidth: 1,
-        borderRadius: 4,
-        margin: 3,
+    TextInput: {
+        width: '80%',
         backgroundColor: 'white',
-    },
-
-    largura_70: {
-        width: '70%'
-    },
-
-    imagem_200: {
-        width: 200,
-        height: 200
-    },
-
-    card:{
         borderWidth: 2,
-        borderColor: 'black',
+    },
+    texto_01: {
+        fontSize: 32,
+        fontWeight: '300',
+        color: 'black',
+    },
+    Texto_botao: {
+        marginTop: -6,
+        fontSize: 32,
+        fontWeight: '600',
+        color: 'white',
+    },
+    botao_01: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: '85%',
+        height: 75,
+        backgroundColor: 'green',
         borderRadius: 15,
-        marginVertical: 5,
-        marginHorizontal: 5,
-        backgroundColor: 'white'
     },
     click: {
         opacity: 0.5
     },
-    centralizar: {
-      alignItems: 'center'
-    }
+    lista_01: {
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignContent: 'center'
+    },
+    card_view: {
+        width: 300,
+        backgroundColor: 'white',
+        borderRadius: 15,
+        borderWidth: 1
+
+    },
+    card: {
+        alignSelf: 'center',
+    },
+    botoes_view: {
+        width: 300,
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-evenly',
+        borderRadius: 15
+
+    },
+    botoes_card: {
+        width: 150,
+
+    },
+    botao_deletar: {
+        backgroundColor: 'red',
+        height: '83%',
+        width: '45%',
+        alignItems: 'center',
+        borderRadius: 5
+
+    },
+    botao_alterar: {
+        backgroundColor: 'yellow',
+        height: '83%',
+        width: '45%',
+        alignItems: 'center',
+        borderRadius: 5
+
+    },
+
 });
 
-export {styles};
+export { styles };
