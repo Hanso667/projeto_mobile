@@ -1,86 +1,108 @@
 import { StyleSheet } from "react-native";
 
+const COLORS = {
+  background: '#fffede',
+  white: '#fff',
+  black: '#000',
+  green: '#28a745',
+  red: '#dc3545',
+  yellow: '#ffc107',
+  grayLight: '#f0f0f0',
+  grayDark: '#333',
+};
+
 const styles = StyleSheet.create({
-
-    tela: {
-        flex: 1, 
-        justifyContent: "center",
-        backgroundColor: '#fffede',
-    },
-    TextInput: {
-        width: '80%',
-        backgroundColor: 'white',
-        borderWidth: 2,
-    },
-    texto_01: {
-        fontSize: 32,
-        fontWeight: '300',
-        color: 'black',
-    },
-    Texto_botao: {
-        marginTop: -6,
-        fontSize: 32,
-        fontWeight: '600',
-        color: 'white',
-    },
-    botao_01: {
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
-        width: '85%',
-        height: 75,
-        backgroundColor: 'green',
-        borderRadius: 15,
-    },
-    click: {
-        opacity: 0.5
-    },
-    lista_01: {
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignContent: 'center'
-    },
-    card_view: {
-        width: 300,
-        backgroundColor: 'white',
-        borderRadius: 15,
-        borderWidth: 1
-
-    },
-    card: {
-        alignSelf: 'center',
-    },
-    botoes_view: {
-        width: 300,
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'space-evenly',
-        borderRadius: 15
-
-    },
-    botoes_card: {
-        width: 150,
-
-    },
-    botao_deletar: {
-        backgroundColor: 'red',
-        height: '83%',
-        width: '45%',
-        alignItems: 'center',
-        borderRadius: 5
-
-    },
-    botao_alterar: {
-        backgroundColor: 'yellow',
-        height: '83%',
-        width: '45%',
-        alignItems: 'center',
-        borderRadius: 5
-
-    },
-
+  tela: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: 'center',
+    backgroundColor: COLORS.background,
+    paddingHorizontal: 20,
+  },
+  TextInput: {
+    width: '80%',
+    backgroundColor: COLORS.white,
+    borderWidth: 1.5,
+    borderColor: COLORS.grayDark,
+    borderRadius: 8,
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    fontSize: 18,
+    color: COLORS.black,
+    marginVertical: 10,
+  },
+  texto_01: {
+    fontSize: 28,
+    fontWeight: '300',
+    color: COLORS.black,
+    marginBottom: 20,
+    textAlign: 'center',
+  },
+  Texto_botao: {
+    fontSize: 24,
+    fontWeight: '600',
+    color: COLORS.white,
+    textAlign: 'center',
+  },
+  botao_01: {
+    width: '85%',
+    height: 60,
+    backgroundColor: COLORS.green,
+    borderRadius: 15,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginVertical: 15,
+    elevation: 4, // sombra android
+    shadowColor: COLORS.black, // sombra iOS
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 3,
+  },
+  click: {
+    opacity: 0.5,
+  },
+  lista_01: {
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  card_view: {
+    width: '90%',
+    maxWidth: 350,
+    backgroundColor: COLORS.white,
+    borderRadius: 15,
+    borderWidth: 1,
+    borderColor: COLORS.grayLight,
+    padding: 15,
+    marginVertical: 10,
+    elevation: 2,
+    shadowColor: COLORS.black,
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
+  },
+  card: {
+    alignSelf: 'center',
+  },
+  botoes_view: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 12,
+  },
+  botoes_card: {
+    flex: 1,
+    marginHorizontal: 5,
+    height: 45,
+    borderRadius: 8,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  botao_deletar: {
+    backgroundColor: COLORS.red,
+  },
+  botao_alterar: {
+    backgroundColor: COLORS.yellow,
+  },
 });
 
 export { styles };
