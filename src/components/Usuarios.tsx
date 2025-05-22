@@ -6,7 +6,12 @@ import { styles } from '../styles/styles';
 import firestore from "@react-native-firebase/firestore";
 import { Usuario } from '../types/Usuario';
 
-const UsuarioScreen = () => {
+type props = {
+    onAlter: (id: string) => void
+}
+
+
+const UsuarioScreen = (props: props) => {
     const [nome, setNome] = useState('');
     const [email, setEmail] = useState('');
     const [senha, setSenha] = useState('');
@@ -71,6 +76,11 @@ const UsuarioScreen = () => {
             });
     };
 
+    
+    const alterarUsuario = (id: string) => {
+        props.onAlter(id);
+    };
+
     useEffect(() => {
         const unsubscribe = firestore()
             .collection('usuarios')
@@ -132,7 +142,7 @@ const UsuarioScreen = () => {
                                 </View>
 
                                 <View style={[styles.botoes_card, styles.botao_alterar]}>
-                                    <Pressable onPress={() => Alert.alert('Alterar', 'Funcionalidade futura')}>
+                                    <Pressable onPress={() => alterarUsuario(item.usuario_id)}>
                                         <Text style={[styles.Texto_botao, { color: 'black' }]}>Alterar</Text>
                                     </Pressable>
                                 </View>

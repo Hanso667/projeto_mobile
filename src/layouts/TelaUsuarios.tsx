@@ -7,12 +7,13 @@ import { useNavigation } from '@react-navigation/native';
 
 
 const TelaUsuarios = (props: UsuariosProps) => {
-    function navegar(){
-        props.navigation.navigate('TelaAltUsuario')
+    function navegar(id: string){
+        props.navigation.navigate('TelaAltUsuario', {usuario_id: id})
     }
     return (
         <View style={styles.tela}>
-        <UsuarioScreen></UsuarioScreen>
+        <UsuarioScreen
+        onAlter={navegar}></UsuarioScreen>
             <Pressable
                 style={({ pressed }) => [styles.botao_01, pressed && styles.click]}
                 onPress={() => props.navigation.goBack()}

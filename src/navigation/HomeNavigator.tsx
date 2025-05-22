@@ -21,7 +21,15 @@ type RootStackParamList = {
     qtds?: { [carro_id: string]: string };
   };
   TelaLogin: undefined;
-  TelaAltUsuario: undefined;
+  TelaAltUsuario: {
+    usuario_id?: string 
+  };
+  TelaAltCarro: {
+    carro_id?: string 
+  };
+  TelaAltCliente: {
+    cliente_id?: string 
+  };
   TelaSelCarro: undefined;
   TelaSelCliente: undefined;
 };
