@@ -76,7 +76,7 @@ const UsuarioScreen = (props: props) => {
             });
     };
 
-    
+
     const alterarUsuario = (id: string) => {
         props.onAlter(id);
     };
@@ -122,34 +122,36 @@ const UsuarioScreen = (props: props) => {
             {/* 🔹 LISTA DE USUÁRIOS */}
             <View style={styles.lista_01}>
                 <Text style={[styles.texto_01, { marginTop: 24, marginBottom: 8 }]}>Usuários Cadastrados</Text>
-                <FlatList
-                    data={usuarios}
-                    keyExtractor={(item) => item.usuario_id}
-                    renderItem={({ item }) => (
-                        <View style={styles.card_view}>
-                            <View style={styles.card}>
-                                <Text style={{ fontSize: 16 }}>ID: {item.usuario_id}</Text>
-                                <Text style={{ fontSize: 16 }}>Nome: {item.nome}</Text>
-                                <Text style={{ fontSize: 16 }}>Email: {item.email}</Text>
-                                <Text style={{ fontSize: 16, color: 'gray' }}>Senha: ••••••••</Text>
-                            </View>
-
-                            <View style={styles.botoes_view}>
-                                <View style={[styles.botoes_card, styles.botao_deletar]}>
-                                    <Pressable onPress={() => deletarUsuario(item.usuario_id)}>
-                                        <Text style={styles.Texto_botao}>Deletar</Text>
-                                    </Pressable>
+                <View>
+                    <FlatList
+                        data={usuarios}
+                        keyExtractor={(item) => item.usuario_id}
+                        renderItem={({ item }) => (
+                            <View style={styles.card_view}>
+                                <View style={styles.card}>
+                                    <Text style={{ fontSize: 16 }}>ID: {item.usuario_id}</Text>
+                                    <Text style={{ fontSize: 16 }}>Nome: {item.nome}</Text>
+                                    <Text style={{ fontSize: 16 }}>Email: {item.email}</Text>
+                                    <Text style={{ fontSize: 16, color: 'gray' }}>Senha: ••••••••</Text>
                                 </View>
 
-                                <View style={[styles.botoes_card, styles.botao_alterar]}>
-                                    <Pressable onPress={() => alterarUsuario(item.usuario_id)}>
-                                        <Text style={[styles.Texto_botao, { color: 'black' }]}>Alterar</Text>
-                                    </Pressable>
+                                <View style={styles.botoes_view}>
+                                    <View style={[styles.botoes_card, styles.botao_deletar]}>
+                                        <Pressable onPress={() => deletarUsuario(item.usuario_id)}>
+                                            <Text style={styles.Texto_botao}>Deletar</Text>
+                                        </Pressable>
+                                    </View>
+
+                                    <View style={[styles.botoes_card, styles.botao_alterar]}>
+                                        <Pressable onPress={() => alterarUsuario(item.usuario_id)}>
+                                            <Text style={[styles.Texto_botao, { color: 'black' }]}>Alterar</Text>
+                                        </Pressable>
+                                    </View>
                                 </View>
                             </View>
-                        </View>
-                    )}
-                />
+                        )}
+                    />
+                </View>
             </View>
         </ScrollView>
     );

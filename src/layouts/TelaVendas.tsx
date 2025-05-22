@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import AddVenda from '../components/vendas';
+import AddVenda from '../components/Vendas';
 import { Pressable, Text, View } from 'react-native';
 import { styles } from '../styles/styles';
 import type { VendasProps } from '../navigation/HomeNavigator';
@@ -30,6 +30,13 @@ const TelaVendas = ({ route, navigation }: VendasProps) => {
       </Pressable>
 
       <AddVenda cliente={cliente} carrosSelecionados={carros} quantidadesSelecionadas={quantidades} />
+      <Pressable
+        style={({ pressed }) => [styles.botao_01, pressed && styles.click]}
+        onPress={() => navigation.goBack()}
+      >
+        <Text style={styles.Texto_botao}> Voltar </Text>
+      </Pressable>
+
     </View>
   );
 };

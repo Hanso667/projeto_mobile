@@ -7,6 +7,8 @@ import TelaClientes from "../layouts/TelaClientes"; // Corrigido: estava "telaCl
 import TelaVendas from "../layouts/TelaVendas";
 import TelaLogin from "../layouts/TelaLogin";
 import TelaAltUsuario from "../layouts/TelaAltUsuario";
+import TelaAltCliente from "../layouts/TelaAltCliente";
+import TelaAltCarro from "../layouts/TelaAltCarro";
 import TelaSelCliente from "../layouts/TelaSelCliente";
 import TelaSelCarro from "../layouts/TelaSelCarro";
 
@@ -48,6 +50,8 @@ const HomeNavigator = () => {
       <Stack.Screen name="TelaCarros" component={TelaCarros} />
       <Stack.Screen name="TelaClientes" component={TelaClientes} />
       <Stack.Screen name="TelaAltUsuario" component={TelaAltUsuario} />
+      <Stack.Screen name="TelaAltCarro" component={TelaAltCarro} />
+      <Stack.Screen name="TelaAltCliente" component={TelaAltCliente} />
       <Stack.Screen name="TelaVendas" component={TelaVendas} />
       <Stack.Screen name="TelaSelCliente" component={TelaSelCliente} />
       <Stack.Screen name="TelaSelCarro" component={TelaSelCarro} />
@@ -55,7 +59,6 @@ const HomeNavigator = () => {
   );
 };
 
-// Tipagens para props de navegação
 type PrincipalProps = NativeStackScreenProps<RootStackParamList, 'TelaPrincipal'>;
 type UsuariosProps = NativeStackScreenProps<RootStackParamList, 'TelaUsuarios'>;
 type CarrosProps = NativeStackScreenProps<RootStackParamList, 'TelaCarros'>;
@@ -65,6 +68,8 @@ type LoginProps = NativeStackScreenProps<RootStackParamList, 'TelaLogin'>;
 type AltUsuarioProps = NativeStackScreenProps<RootStackParamList, 'TelaAltUsuario'>;
 type SelCarroProps = NativeStackScreenProps<RootStackParamList, 'TelaSelCarro'>;
 type SelClienteProps = NativeStackScreenProps<RootStackParamList, 'TelaSelCliente'>;
+type AltClienteProps = NativeStackScreenProps<RootStackParamList, 'TelaAltCliente'>;
+type AltCarroProps = NativeStackScreenProps<RootStackParamList, 'TelaAltCarro'>;
 
 export default HomeNavigator;
 
@@ -79,4 +84,6 @@ export type {
   AltUsuarioProps,
   SelClienteProps,
   SelCarroProps,
+  AltCarroProps,
+  AltClienteProps,
 };

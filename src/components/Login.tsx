@@ -74,6 +74,7 @@ const Login = (props: nomeProp) => {
                 style={({ pressed }) => [styles.botao_01, pressed && styles.click]}
                 onPress={() => login()}
             >
+                <Text style={styles.Texto_botao}> Logar </Text>
             </Pressable>
 
         </View>

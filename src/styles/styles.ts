@@ -20,7 +20,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   TextInput: {
-    width: '80%',
+    width: '100%',
+    minWidth: 300,
     backgroundColor: COLORS.white,
     borderWidth: 1.5,
     borderColor: COLORS.grayDark,
@@ -45,7 +46,8 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   botao_01: {
-    width: '85%',
+    width: '100%',
+    minWidth: 300,
     height: 60,
     backgroundColor: COLORS.green,
     borderRadius: 15,

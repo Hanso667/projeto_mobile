@@ -2,66 +2,60 @@ import React, { useEffect, useState } from 'react';
 import { Alert, Pressable, Text, TextInput, View } from 'react-native';
 import firestore from '@react-native-firebase/firestore';
 import { styles } from '../styles/styles';
+import { Cliente } from '../types/Cliente';
 
-type Usuario = {
-  usuario_id: string;
-  nome: string;
-  email: string;
-  senha: string;
-};
+const TelaAltCliente = (props: any) => {
+  const clienteId = props.route.params.cliente_id;
 
-const TelaAltUsuario = (props: any) => {
-  const usuarioId = props.route.params.usuario_id;
-
-  const [usuario, setUsuario] = useState<Usuario>({
-    usuario_id: usuarioId,
+  const [cliente, setCliente] = useState<Cliente>({
+    cliente_id: clienteId,
     nome: '',
-    email: '',
-    senha: '',
+    endereco: '',
+    cpf: '',
   });
 
   const [loading, setLoading] = useState(true);
   const [salvando, setSalvando] = useState(false);
 
-  // Busca os dados do usuário
-  const buscarUsuario = async () => {
+  // Busca os dados do cliente
+  const buscarCliente = async () => {
     try {
-      const docRef = await firestore().collection('usuarios').doc(usuarioId).get();
+      const docRef = await firestore().collection('clientes').doc(clienteId).get();
 
       if (docRef.exists) {
         const dados = docRef.data();
-        setUsuario({
-          usuario_id: usuarioId,
+        setCliente({
+          cliente_id: clienteId,
           nome: dados?.nome || '',
-          email: dados?.email || '',
-          senha: dados?.senha || '',
+          endereco: dados?.endereco || '',
+          cpf: dados?.cpf || '',
         });
       } else {
-        Alert.alert('Erro', 'Usuário não encontrado');
+        Alert.alert('Erro', 'Cliente não encontrado');
       }
     } catch (error: any) {
-      Alert.alert('Erro ao buscar usuário', error.message);
+      Alert.alert('Erro ao buscar cliente', error.message);
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    buscarUsuario();
+    buscarCliente();
   }, []);
 
-  const atualizarCampo = (campo: keyof Usuario, valor: string) => {
-    setUsuario(prev => ({ ...prev, [campo]: valor }));
+  const atualizarCampo = (campo: keyof Cliente, valor: string) => {
+    setCliente(prev => ({ ...prev, [campo]: valor }));
   };
 
   // Salva as alterações
   const salvarAlteracoes = async () => {
     setSalvando(true);
     try {
-      await firestore().collection('usuarios').doc(usuario.usuario_id).update({
-        nome: usuario.nome,
-        email: usuario.email,
-        senha: usuario.senha,
+      await firestore().collection('clientes').doc(cliente.cliente_id).update({
+        nome: cliente.nome,
+        endereco: cliente.endereco,
+        cpf: cliente.cpf,
       });
       Alert.alert('Sucesso', 'Dados atualizados com sucesso!');
     } catch (error: any) {
@@ -91,27 +85,26 @@ const TelaAltUsuario = (props: any) => {
       <Text>Nome:</Text>
       <TextInput
         style={styles.TextInput}
-        value={usuario.nome}
+        value={cliente.nome}
         onChangeText={text => atualizarCampo('nome', text)}
         placeholder="Nome"
       />
 
-      <Text>Email:</Text>
+      <Text>Endereço:</Text>
       <TextInput
         style={styles.TextInput}
-        value={usuario.email}
-        onChangeText={text => atualizarCampo('email', text)}
-        placeholder="Email"
-        keyboardType="email-address"
+        value={cliente.endereco}
+        onChangeText={text => atualizarCampo('endereco', text)}
+        placeholder="Endereço"
       />
 
-      <Text>Senha:</Text>
+      <Text>CPF:</Text>
       <TextInput
         style={styles.TextInput}
-        value={usuario.senha}
-        onChangeText={text => atualizarCampo('senha', text)}
-        placeholder="Senha"
-        secureTextEntry
+        value={cliente.cpf}
+        onChangeText={text => atualizarCampo('cpf', text)}
+        placeholder="CPF"
+        keyboardType="numeric"
       />
 
       <Pressable
@@ -127,4 +120,4 @@ const TelaAltUsuario = (props: any) => {
   );
 };
 
-export default TelaAltUsuario;
+export default TelaAltCliente;
