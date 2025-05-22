@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Alert, Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import HomeNavigator, { UsuariosProps } from '../navigation/HomeNavigator';
 import { styles } from '../styles/styles';
-import { AddUsuario , ListUsuario } from '../components/Usuarios';
+import UsuarioScreen from '../components/Usuarios';
 import { useNavigation } from '@react-navigation/native';
 
 
@@ -12,9 +12,7 @@ const TelaUsuarios = (props: UsuariosProps) => {
     }
     return (
         <View style={styles.tela}>
-            <AddUsuario></AddUsuario>
-            <ListUsuario
-            onAlt={() => navegar() }></ListUsuario>
+        <UsuarioScreen></UsuarioScreen>
             <Pressable
                 style={({ pressed }) => [styles.botao_01, pressed && styles.click]}
                 onPress={() => props.navigation.goBack()}

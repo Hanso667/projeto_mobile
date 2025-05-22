@@ -2,12 +2,15 @@ import React, { useState } from 'react';
 import { Alert, Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import HomeNavigator, { CarrosProps } from '../navigation/HomeNavigator';
 import { styles } from '../styles/styles';
+import { AddMarca , AddCarros , ListCarros } from '../components/Carros';
 import { useNavigation } from '@react-navigation/native';
 
 
 const TelaCarros = (props: CarrosProps) => {
     return (
         <View style={styles.tela}>
+           <ListCarros onAlt={() => props.navigation.navigate('TelaCarros')}></ListCarros>
+
             <Pressable
                 style={({ pressed }) => [styles.botao_01, pressed && styles.click]}
                 onPress={() => props.navigation.goBack()}

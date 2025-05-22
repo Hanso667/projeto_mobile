@@ -3,11 +3,12 @@ type Carro = {
     modelo: string;
     valor: number;
     marca_id: string;
+    marca: string;
 }
 
-type Marca_Carro = {
+type Marca = {
     marca_id: string;
     marca: string;
 }
 
-export type { Carro, Marca_Carro };
+export type { Carro, Marca };

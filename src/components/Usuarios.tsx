@@ -1,223 +1,148 @@
 import React, { useState, useEffect } from 'react';
-import { Alert, FlatList, Image, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
+import {
+    Alert, FlatList, Pressable, Text, TextInput, View, ScrollView
+} from 'react-native';
 import { styles } from '../styles/styles';
-import { Usuario } from '../types/Usuario';
-import HomeNavigator, { UsuariosProps } from '../navigation/HomeNavigator';
 import firestore from "@react-native-firebase/firestore";
+import { Usuario } from '../types/Usuario';
 
-const AddUsuario = () => {
-
+const UsuarioScreen = () => {
     const [nome, setNome] = useState('');
     const [email, setEmail] = useState('');
     const [senha, setSenha] = useState('');
-    const [cSenha, setCsenha] = useState('');
+    const [confirmarSenha, setConfirmarSenha] = useState('');
+    const [usuarios, setUsuarios] = useState<Usuario[]>([]);
 
-    function verificaCampos() {
-        if (!nome) {
-            Alert.alert('Aviso', 'valor para nome vazio')
+    // 🧹 Limpa os campos após cadastro
+    const limparCampos = () => {
+        setNome('');
+        setEmail('');
+        setSenha('');
+        setConfirmarSenha('');
+    };
+
+    // ✅ Verifica se os campos estão corretos
+    const verificaCampos = (): boolean => {
+        if (!nome || !email || !senha || !confirmarSenha) {
+            Alert.alert('Aviso', 'Todos os campos são obrigatórios.');
             return false;
         }
-        if (!email) {
-            Alert.alert('Aviso', 'valor para email vazio')
-            return false;
-        }
-        if (!senha) {
-            Alert.alert('Aviso', 'valor para senha vazio')
-            return false;
-        }
-        if (senha != cSenha) {
-            Alert.alert('Aviso', 'as senhas não estão iguais')
+        if (senha !== confirmarSenha) {
+            Alert.alert('Aviso', 'As senhas não coincidem.');
             return false;
         }
         return true;
-    }
-    function cadastrar() {
-        if (verificaCampos()) {
-            //crie um objeto do tipo Produto
-            let usuario = {
-                nome: nome,
-                email: email,
-                senha: senha,
-            } as Usuario;
+    };
 
+    // 💾 Cadastra usuário no Firestore
+    const cadastrarUsuario = () => {
+        if (!verificaCampos()) return;
 
-            //adiciona o objeto produto na tabela produtos
-            firestore()
-                .collection('usuarios')
-                .add(usuario)
-                .then(() => {
-                    Alert.alert("Paciente", "Cadastrado com sucesso!");
-                })
-                .catch((error) => {
-                    Alert.alert("Erro", String(error));
-                });
-        }
-    }
+        const usuario: Omit<Usuario, 'usuario_id'> = {
+            nome,
+            email,
+            senha,
+        };
 
+        firestore()
+            .collection('usuarios')
+            .add(usuario)
+            .then(() => {
+                Alert.alert("Usuário", "Cadastrado com sucesso!");
+                limparCampos();
+            })
+            .catch(error => {
+                Alert.alert("Erro", String(error));
+            });
+    };
 
-
-
-
-    return (
-        <View style={styles.tela}>
-
-            <Text style={styles.texto_01}> Nome </Text>
-            <TextInput
-                style={styles.TextInput}
-                value={nome}
-                onChangeText={setNome}>
-            </TextInput>
-
-            <Text style={styles.texto_01}> Email </Text>
-            <TextInput
-                style={styles.TextInput}
-                value={email}
-                onChangeText={setEmail}>
-            </TextInput>
-
-            <Text style={styles.texto_01}> Senha </Text>
-            <TextInput
-                style={styles.TextInput}
-                value={senha}
-                onChangeText={setSenha}
-                secureTextEntry={true}>
-            </TextInput>
-
-            <Text style={styles.texto_01}> Confirmar Senha</Text>
-            <TextInput
-                style={styles.TextInput}
-                value={cSenha}
-                onChangeText={setCsenha}
-                secureTextEntry={true}>
-            </TextInput>
-
-            <Pressable
-                style={({ pressed }) => [styles.botao_01, pressed && styles.click]}
-                onPress={() => cadastrar()}>
-                <Text style={styles.Texto_botao}> Cadastrar </Text>
-            </Pressable>
-
-        </View>
-    );
-}
-
-type onAlterar ={
- onAlt: () => void
-}
-
-const ListUsuario = (props: onAlterar) => {
-
-    const [usuarios, setUsuarios] = useState<Usuario[]>([]);
-
-    function DeletarUsuario(id: string) {
+    // ❌ Deleta usuário
+    const deletarUsuario = (id: string) => {
         firestore()
             .collection('usuarios')
             .doc(id)
             .delete()
             .then(() => {
-                Alert.alert("Paciente", "Removido com sucesso")
+                Alert.alert("Usuário", "Removido com sucesso");
             })
-            .catch((error) => console.log(error));
-    }
-
-
-
-    function AlterarUsuario() {
-        props.onAlt()
-    }
+            .catch(error => {
+                console.error("Erro ao deletar:", error);
+                Alert.alert("Erro", "Não foi possível deletar o usuário.");
+            });
+    };
 
     useEffect(() => {
-        const subscribe = firestore()
+        const unsubscribe = firestore()
             .collection('usuarios')
-            .onSnapshot(querySnapshot => {
-                const data = querySnapshot.docs.map(doc => {
-                    return {
-                        usuario_id: doc.id,
-                        ...doc.data()
-                    }
-
-                }) as Usuario[];
-
+            .onSnapshot(snapshot => {
+                const data: Usuario[] = snapshot.docs.map(doc => ({
+                    usuario_id: doc.id,
+                    ...(doc.data() as Omit<Usuario, 'usuario_id'>)
+                }));
                 setUsuarios(data);
             });
 
-        return () => subscribe();
+        return () => unsubscribe();
     }, []);
 
     return (
-        <View style={styles.lista_01}>
-            <FlatList
-                data={usuarios}
-                renderItem={(Usuario) =>
-                    <ItemUsuario
-                        index={Usuario.index + 1}
-                        usuario={Usuario.item}
-                        onAlterar={AlterarUsuario}
-                        onDeletar={DeletarUsuario}
-                    />} />
-        </View>
-    )
-}
-type ItemUsuarioProps = {
-    index: number;
-    usuario: Usuario;
-    onDeletar: (id: string) => void;
-    onAlterar: (id: string) => void;
-}
+        <ScrollView style={{ flex: 1 }} contentContainerStyle={{ padding: 16 }}>
+            {/* 🔹 FORMULÁRIO DE CADASTRO */}
+            <View style={styles.tela}>
+                <Text style={styles.texto_01}>Nome</Text>
+                <TextInput style={styles.TextInput} value={nome} onChangeText={setNome} />
 
-const ItemUsuario = (props: ItemUsuarioProps) => {
+                <Text style={styles.texto_01}>Email</Text>
+                <TextInput style={styles.TextInput} value={email} onChangeText={setEmail} keyboardType="email-address" />
 
+                <Text style={styles.texto_01}>Senha</Text>
+                <TextInput style={styles.TextInput} value={senha} onChangeText={setSenha} secureTextEntry />
 
-    return (
-        <View style={styles.card_view}>
+                <Text style={styles.texto_01}>Confirmar Senha</Text>
+                <TextInput style={styles.TextInput} value={confirmarSenha} onChangeText={setConfirmarSenha} secureTextEntry />
 
-            <View style={styles.card}>
-
-                <Text style={{ fontSize: 20 }}>
-                    Id: {props.usuario.usuario_id} {' '}
-                </Text>
-
-                <Text style={{ fontSize: 20 }}>
-                    nome: {props.usuario.nome} {' '}
-                </Text>
-
-                <Text style={{ fontSize: 20 }}>
-                    email: {props.usuario.email} {' '}
-                </Text>
-
-                <Text style={{ fontSize: 20 }}>
-                    senha: {props.usuario.senha} {' '}
-                </Text>
-
+                <Pressable
+                    style={({ pressed }) => [styles.botao_01, pressed && styles.click]}
+                    onPress={cadastrarUsuario}
+                >
+                    <Text style={styles.Texto_botao}>Cadastrar</Text>
+                </Pressable>
             </View>
 
-            <View
-                style={styles.botoes_view}>
-                <View
-                    style={[styles.botoes_card, styles.botao_deletar]}>
+            {/* 🔹 LISTA DE USUÁRIOS */}
+            <View style={styles.lista_01}>
+                <Text style={[styles.texto_01, { marginTop: 24, marginBottom: 8 }]}>Usuários Cadastrados</Text>
+                <FlatList
+                    data={usuarios}
+                    keyExtractor={(item) => item.usuario_id}
+                    renderItem={({ item }) => (
+                        <View style={styles.card_view}>
+                            <View style={styles.card}>
+                                <Text style={{ fontSize: 16 }}>ID: {item.usuario_id}</Text>
+                                <Text style={{ fontSize: 16 }}>Nome: {item.nome}</Text>
+                                <Text style={{ fontSize: 16 }}>Email: {item.email}</Text>
+                                <Text style={{ fontSize: 16, color: 'gray' }}>Senha: ••••••••</Text>
+                            </View>
 
-                    <Pressable
-                        onPress={() => props.onDeletar(props.usuario.usuario_id)}>
+                            <View style={styles.botoes_view}>
+                                <View style={[styles.botoes_card, styles.botao_deletar]}>
+                                    <Pressable onPress={() => deletarUsuario(item.usuario_id)}>
+                                        <Text style={styles.Texto_botao}>Deletar</Text>
+                                    </Pressable>
+                                </View>
 
-                        <Text style={styles.Texto_botao}>
-                            Deletar
-                        </Text>
-
-
-                    </Pressable>
-                </View>
-
-                <View style={[styles.botoes_card, styles.botao_alterar]}>
-                    <Pressable
-                        onPress={() => props.onAlterar(props.usuario.usuario_id)}>
-                        <Text style={[styles.Texto_botao, { color: 'black' }]}>
-                            Alterar
-                        </Text>
-                    </Pressable>
-                </View>
+                                <View style={[styles.botoes_card, styles.botao_alterar]}>
+                                    <Pressable onPress={() => Alert.alert('Alterar', 'Funcionalidade futura')}>
+                                        <Text style={[styles.Texto_botao, { color: 'black' }]}>Alterar</Text>
+                                    </Pressable>
+                                </View>
+                            </View>
+                        </View>
+                    )}
+                />
             </View>
-        </View>
+        </ScrollView>
     );
-}
+};
 
-export { AddUsuario, ListUsuario }; 
+export default UsuarioScreen;

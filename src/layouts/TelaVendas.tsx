@@ -2,12 +2,14 @@ import React, { useState } from 'react';
 import { Alert, Image, Pressable, StyleSheet, ScrollView , Text, View } from 'react-native';
 import HomeNavigator, { VendasProps } from '../navigation/HomeNavigator';
 import { styles } from '../styles/styles';
+import AddVendas from '../components/Vendas';
 import { useNavigation } from '@react-navigation/native';
 
 
 const TelaVendas = (props: VendasProps) => {
     return (
         <View style={styles.tela}>
+            <AddVendas></AddVendas>
             <Pressable
                 style={({ pressed }) => [styles.botao_01, pressed && styles.click]}
                 onPress={() => props.navigation.goBack()}
