@@ -1,24 +1,37 @@
-import React, { useState } from 'react';
-import { Alert, Image, Pressable, StyleSheet, ScrollView , Text, View } from 'react-native';
-import HomeNavigator, { VendasProps } from '../navigation/HomeNavigator';
+import React, { useState, useEffect } from 'react';
+import AddVenda from '../components/vendas';
+import { Pressable, Text, View } from 'react-native';
 import { styles } from '../styles/styles';
-import AddVendas from '../components/Vendas';
-import { useNavigation } from '@react-navigation/native';
+import type { VendasProps } from '../navigation/HomeNavigator';
+import type { Carro } from '../types/Carro'; // ajuste o caminho!
 
+const TelaVendas = ({ route, navigation }: VendasProps) => {
+  const [cliente, setCliente] = useState(null);
+  const [carros, setCarros] = useState<Carro[]>(([]));
+  const [quantidades, setQuantidades] = useState({});
 
-const TelaVendas = (props: VendasProps) => {
-    return (
-        <View style={styles.tela}>
-            <AddVendas></AddVendas>
-            <Pressable
-                style={({ pressed }) => [styles.botao_01, pressed && styles.click]}
-                onPress={() => props.navigation.goBack()}
-            >
-                <Text style={styles.Texto_botao}> Voltar </Text>
-            </Pressable>
-        </View>
-    );
-}
+  useEffect(() => {
+    if (route.params) {
+      const { cliente: novoCliente, carros: novosCarros, qtds } = route.params;
+      if (novoCliente) setCliente(novoCliente);
+      if (novosCarros) setCarros(novosCarros);
+      if (qtds) setQuantidades(qtds);
+    }
+  }, [route.params]);
 
-//exportando o componente TelaPrincipal para ficar visível para outros arquivos
+  return (
+    <View style={styles.tela}>
+      <Pressable style={styles.botao_01} onPress={() => navigation.navigate('TelaSelCliente')}>
+        <Text style={styles.Texto_botao}>Selecionar Cliente</Text>
+      </Pressable>
+
+      <Pressable style={styles.botao_01} onPress={() => navigation.navigate('TelaSelCarro')}>
+        <Text style={styles.Texto_botao}>Selecionar Carros</Text>
+      </Pressable>
+
+      <AddVenda cliente={cliente} carrosSelecionados={carros} quantidadesSelecionadas={quantidades} />
+    </View>
+  );
+};
+
 export default TelaVendas;
