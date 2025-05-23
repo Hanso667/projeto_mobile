@@ -10,6 +10,7 @@ const TelaLogin = (props: LoginProps) => {
     
     function navegar(id: string){
         props.navigation.navigate('TelaPrincipal', {usuario_id: id });
+        
     }
 
     return (

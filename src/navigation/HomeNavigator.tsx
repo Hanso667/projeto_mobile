@@ -38,8 +38,8 @@ type RootStackParamList = {
   TelaAltCliente: {
     cliente_id?: string 
   };
-  TelaSelCarro: undefined;
-  TelaSelCliente: undefined;
+  TelaSelCarro: {usuario?: any};
+  TelaSelCliente: {usuario?: any};
   TelaSelMarca: undefined;
 };
 

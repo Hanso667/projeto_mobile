@@ -21,12 +21,12 @@ const TelaVendas = ({ route, navigation }: VendasProps) => {
   }, [route.params]);
 
   return (
-    <View style={styles.tela}>
-      <Pressable style={styles.botao_01} onPress={() => navigation.navigate('TelaSelCliente')}>
+    <View style={[styles.tela, {paddingTop: 40}]}>
+      <Pressable style={styles.botao_01} onPress={() => navigation.navigate('TelaSelCliente', {usuario: id})}>
         <Text style={styles.Texto_botao}>Selecionar Cliente</Text>
       </Pressable>
 
-      <Pressable style={styles.botao_01} onPress={() => navigation.navigate('TelaSelCarro')}>
+      <Pressable style={styles.botao_01} onPress={() => navigation.navigate('TelaSelCarro', {usuario: id})}>
         <Text style={styles.Texto_botao}>Selecionar Carros</Text>
       </Pressable>
 
