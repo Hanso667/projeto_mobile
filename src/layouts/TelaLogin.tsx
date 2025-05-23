@@ -16,13 +16,6 @@ const TelaLogin = (props: LoginProps) => {
         <View style={styles.tela}>
             <Login
             onPressBotao={() => navegar()}></Login>
-            <Pressable
-            style={styles.botao_01}
-            onPress={()=> props.navigation.navigate('TelaPrincipal')}> 
-
-            <Text style={styles.Texto_botao}> Pular (temporario) </Text> 
-
-            </Pressable>
         </View>
     );
 }
