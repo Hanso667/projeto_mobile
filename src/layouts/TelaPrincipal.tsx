@@ -6,18 +6,20 @@ import { useNavigation } from '@react-navigation/native';
 
 
 const TelaPrincipal = (props: PrincipalProps) => {
+const id = props.route.params.usuario_id;
+
   return (
     <View style={styles.tela}>
 
       <Pressable
         style={({ pressed }) => [styles.botao_01, pressed && styles.click]}
-        onPress={() => props.navigation.navigate('TelaVendas')}>
+        onPress={() => props.navigation.navigate('TelaVendas', {usuario: id})}>
         <Text style={styles.Texto_botao}>Vendas</Text>
       </Pressable>
 
       <Pressable
         style={({ pressed }) => [styles.botao_01, pressed && styles.click]}
-        onPress={() => props.navigation.navigate('TelaCarros')}>
+        onPress={() => props.navigation.navigate('TelaCarros', {marca: ''})}>
         <Text style={styles.Texto_botao}>Carros</Text>
       </Pressable>
 

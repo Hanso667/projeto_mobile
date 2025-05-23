@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Alert, Image, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Alert, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 import { styles } from '../styles/styles';
 import { Usuario } from '../types/Usuario';
 
-
 import firestore from "@react-native-firebase/firestore";
 
-
 type nomeProp = {
-    onPressBotao: () => void
+    onPressBotao: (id: string) => void;
 }
 
 const Login = (props: nomeProp) => {
@@ -16,8 +14,6 @@ const Login = (props: nomeProp) => {
     const [usuarios, setUsuarios] = useState<Usuario[]>([]);
     const [email, setEmail] = useState('');
     const [senha, setSenha] = useState('');
-
-
 
     useEffect(() => {
         const subscribe = firestore()
@@ -28,7 +24,6 @@ const Login = (props: nomeProp) => {
                         usuario_id: doc.id,
                         ...doc.data()
                     }
-
                 }) as Usuario[];
 
                 setUsuarios(data);
@@ -37,15 +32,13 @@ const Login = (props: nomeProp) => {
         return () => subscribe();
     }, []);
 
-
-
     function login() {
-        const confirm = usuarios.some(usuario =>
+        const usuario = usuarios.find(usuario =>
             usuario.email === email && usuario.senha === senha
         );
 
-        if (confirm) {
-            props.onPressBotao();
+        if (usuario) {
+            props.onPressBotao(usuario.usuario_id);
         } else {
             Alert.alert("Erro", "Email ou senha inválidos");
         }
@@ -58,21 +51,20 @@ const Login = (props: nomeProp) => {
             <TextInput
                 style={styles.TextInput}
                 value={email}
-                onChangeText={setEmail}>
-            </TextInput>
+                onChangeText={setEmail}
+            />
 
             <Text style={styles.texto_01}> Senha </Text>
             <TextInput
                 style={styles.TextInput}
                 value={senha}
                 onChangeText={setSenha}
-                secureTextEntry={true}>
-
-            </TextInput>
+                secureTextEntry={true}
+            />
 
             <Pressable
                 style={({ pressed }) => [styles.botao_01, pressed && styles.click]}
-                onPress={() => login()}
+                onPress={login}
             >
                 <Text style={styles.Texto_botao}> Logar </Text>
             </Pressable>
@@ -81,5 +73,4 @@ const Login = (props: nomeProp) => {
     );
 }
 
-//exportando o componente TelaPrincipal para ficar visível para outros arquivos
 export default Login;

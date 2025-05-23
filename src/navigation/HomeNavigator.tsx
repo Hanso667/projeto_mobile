@@ -11,13 +11,19 @@ import TelaAltCliente from "../layouts/TelaAltCliente";
 import TelaAltCarro from "../layouts/TelaAltCarro";
 import TelaSelCliente from "../layouts/TelaSelCliente";
 import TelaSelCarro from "../layouts/TelaSelCarro";
+import TelaSelMarca from "../layouts/TelaSelMarca";
 
 type RootStackParamList = {
-  TelaPrincipal: undefined;
+  TelaPrincipal: {
+    usuario_id?: any;
+  };
   TelaUsuarios: undefined;
-  TelaCarros: undefined;
+  TelaCarros: {
+    marca?: any;
+  };
   TelaClientes: undefined;
   TelaVendas: {
+    usuario?: any;
     cliente?: any;
     carros?: any[];
     qtds?: { [carro_id: string]: string };
@@ -34,6 +40,7 @@ type RootStackParamList = {
   };
   TelaSelCarro: undefined;
   TelaSelCliente: undefined;
+  TelaSelMarca: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -55,6 +62,7 @@ const HomeNavigator = () => {
       <Stack.Screen name="TelaVendas" component={TelaVendas} />
       <Stack.Screen name="TelaSelCliente" component={TelaSelCliente} />
       <Stack.Screen name="TelaSelCarro" component={TelaSelCarro} />
+      <Stack.Screen name="TelaSelMarca" component={TelaSelMarca} />
     </Stack.Navigator>
   );
 };
@@ -70,6 +78,7 @@ type SelCarroProps = NativeStackScreenProps<RootStackParamList, 'TelaSelCarro'>;
 type SelClienteProps = NativeStackScreenProps<RootStackParamList, 'TelaSelCliente'>;
 type AltClienteProps = NativeStackScreenProps<RootStackParamList, 'TelaAltCliente'>;
 type AltCarroProps = NativeStackScreenProps<RootStackParamList, 'TelaAltCarro'>;
+type SelMarcaProps = NativeStackScreenProps<RootStackParamList, 'TelaSelMarca'>;
 
 export default HomeNavigator;
 
@@ -86,4 +95,5 @@ export type {
   SelCarroProps,
   AltCarroProps,
   AltClienteProps,
+  SelMarcaProps
 };

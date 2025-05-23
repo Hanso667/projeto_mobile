@@ -8,14 +8,14 @@ import { useNavigation } from '@react-navigation/native';
 
 const TelaLogin = (props: LoginProps) => {
     
-    function navegar(){
-        props.navigation.navigate('TelaPrincipal');
+    function navegar(id: string){
+        props.navigation.navigate('TelaPrincipal', {usuario_id: id });
     }
 
     return (
         <View style={styles.tela}>
             <Login
-            onPressBotao={() => navegar()}></Login>
+            onPressBotao={navegar}></Login>
         </View>
     );
 }

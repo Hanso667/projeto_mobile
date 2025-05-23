@@ -8,13 +8,22 @@ import { Carro, Marca } from '../types/Carro';
 
 type Props = {
   onAlterar: (id: string) => void;
+  onSelecionarMarca: () => void;
+  marcaSelecionada: Marca | null;
 };
 
-const CarroScreen = ({ onAlterar }: Props) => {
+const CarroScreen = ({ onAlterar, onSelecionarMarca, marcaSelecionada }: Props) => {
   const [modelo, setModelo] = useState('');
   const [valor, setValor] = useState('');
   const [marcaId, setMarcaId] = useState('');
   const [carros, setCarros] = useState<Carro[]>([]);
+
+  // Atualiza marcaId quando marcaSelecionada mudar
+  useEffect(() => {
+    if (marcaSelecionada) {
+      setMarcaId(marcaSelecionada.marca_id);
+    }
+  }, [marcaSelecionada]);
 
   const limparCampos = () => {
     setModelo('');
@@ -65,7 +74,6 @@ const CarroScreen = ({ onAlterar }: Props) => {
       });
   };
 
-
   useEffect(() => {
     const unsubscribe = firestore()
       .collection('carros')
@@ -102,8 +110,16 @@ const CarroScreen = ({ onAlterar }: Props) => {
         <Text style={styles.texto_01}>Valor</Text>
         <TextInput style={styles.TextInput} value={valor} onChangeText={setValor} keyboardType="decimal-pad" />
 
-        <Text style={styles.texto_01}>Marca ID</Text>
-        <TextInput style={styles.TextInput} value={marcaId} onChangeText={setMarcaId} />
+        {/* Botão para selecionar a marca */}
+        <Text style={styles.texto_01}>Marca Selecionada</Text>
+        <Pressable
+          style={[styles.botao_01, { marginBottom: 16 }]}
+          onPress={onSelecionarMarca}
+        >
+          <Text style={styles.Texto_botao}>
+            {marcaSelecionada ? marcaSelecionada.marca : 'Selecionar Marca'}
+          </Text>
+        </Pressable>
 
         <Pressable style={({ pressed }) => [styles.botao_01, pressed && styles.click]} onPress={cadastrarCarro}>
           <Text style={styles.Texto_botao}>Cadastrar</Text>

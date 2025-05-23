@@ -6,6 +6,7 @@ import type { VendasProps } from '../navigation/HomeNavigator';
 import type { Carro } from '../types/Carro'; // ajuste o caminho!
 
 const TelaVendas = ({ route, navigation }: VendasProps) => {
+  const id = route.params.usuario;
   const [cliente, setCliente] = useState(null);
   const [carros, setCarros] = useState<Carro[]>(([]));
   const [quantidades, setQuantidades] = useState({});
@@ -29,7 +30,7 @@ const TelaVendas = ({ route, navigation }: VendasProps) => {
         <Text style={styles.Texto_botao}>Selecionar Carros</Text>
       </Pressable>
 
-      <AddVenda cliente={cliente} carrosSelecionados={carros} quantidadesSelecionadas={quantidades} />
+      <AddVenda usuario_id={id} cliente={cliente} carrosSelecionados={carros} quantidadesSelecionadas={quantidades} />
       <Pressable
         style={({ pressed }) => [styles.botao_01, pressed && styles.click]}
         onPress={() => navigation.goBack()}

@@ -9,10 +9,12 @@ const AddVenda = ({
   cliente,
   carrosSelecionados,
   quantidadesSelecionadas,
+  usuario_id, // <- adicionado aqui
 }: {
   cliente: { id: string, nome: string } | null,
   carrosSelecionados: Carro[],
-  quantidadesSelecionadas: { [id: string]: string }
+  quantidadesSelecionadas: { [id: string]: string },
+  usuario_id: string // <- tipo definido
 }) => {
   const cadastrarVenda = async () => {
     if (!cliente) {
@@ -26,6 +28,7 @@ const AddVenda = ({
     }
 
     const vendaData: Omit<Venda, 'venda_id'> = {
+      usuario_id, // <- incluído aqui
       cliente_id: cliente.id,
       valor_total: carrosSelecionados.reduce((soma, carro) => {
         const quantidade = parseInt(quantidadesSelecionadas[carro.carro_id] || '1');

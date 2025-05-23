@@ -1,28 +1,43 @@
-import React, { useState } from 'react';
-import { Alert, Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
-import HomeNavigator, { CarrosProps } from '../navigation/HomeNavigator';
+import React, { useEffect, useState } from 'react';
+import { Pressable, Text, View } from 'react-native';
+import { CarrosProps } from '../navigation/HomeNavigator';
 import { styles } from '../styles/styles';
 import CarroScreen from '../components/Carros';
-import { useNavigation } from '@react-navigation/native';
+import { Marca } from '../types/Carro';
 
+const TelaCarros = ({ navigation, route }: CarrosProps) => {
+  const [marcaSelecionada, setMarcaSelecionada] = useState<Marca | null>(null);
 
-const TelaCarros = (props: CarrosProps) => {
-    function navegar(id: string) {
-        props.navigation.navigate('TelaAltCarro', { carro_id: id })
+  useEffect(() => {
+    if (route.params?.marca) {
+      setMarcaSelecionada(route.params.marca);
     }
-    return (
-        <View style={styles.tela}>
-            <CarroScreen onAlterar={navegar}></CarroScreen>
+  }, [route.params?.marca]);
 
-            <Pressable
-                style={({ pressed }) => [styles.botao_01, pressed && styles.click]}
-                onPress={() => props.navigation.goBack()}
-            >
-                <Text style={styles.Texto_botao}> Voltar </Text>
-            </Pressable>
-        </View>
-    );
-}
+  function navegar(id: string) {
+    navigation.navigate('TelaAltCarro', { carro_id: id });
+  }
 
-//exportando o componente TelaPrincipal para ficar visível para outros arquivos
+  function selecionarMarca() {
+    navigation.navigate('TelaSelMarca');
+  }
+
+  return (
+    <View style={styles.tela}>
+      <CarroScreen
+        onAlterar={navegar}
+        onSelecionarMarca={selecionarMarca}
+        marcaSelecionada={marcaSelecionada}
+      />
+
+      <Pressable
+        style={({ pressed }) => [styles.botao_01, pressed && styles.click]}
+        onPress={() => navigation.goBack()}
+      >
+        <Text style={styles.Texto_botao}> Voltar </Text>
+      </Pressable>
+    </View>
+  );
+};
+
 export default TelaCarros;
