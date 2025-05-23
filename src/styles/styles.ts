@@ -19,6 +19,36 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.background,
     paddingHorizontal: 20,
   },
+  botaoSelecionar: {
+    width: '100%',
+    minWidth: 100,
+    height: 60,
+    backgroundColor: COLORS.green,
+    borderRadius: 15,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginVertical: 15,
+    elevation: 4, // sombra android
+    shadowColor: COLORS.black, // sombra iOS
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 3,
+
+  },
+  TextInputSelecionar: {
+    width: '100%',
+    minWidth: 150,
+    backgroundColor: COLORS.white,
+    borderWidth: 1.5,
+    borderColor: COLORS.grayDark,
+    borderRadius: 8,
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    fontSize: 18,
+    color: COLORS.black,
+    marginVertical: 10,
+  },
+
   TextInput: {
     width: '100%',
     minWidth: 300,
@@ -70,6 +100,7 @@ const styles = StyleSheet.create({
   },
   card_view: {
     width: '90%',
+    minWidth: 300,
     maxWidth: 350,
     backgroundColor: COLORS.white,
     borderRadius: 15,

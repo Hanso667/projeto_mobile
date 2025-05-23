@@ -27,18 +27,24 @@ const TelaSelCliente = () => {
     }, []);
 
     return (
-        <FlatList
-            data={clientes}
-            keyExtractor={(item) => item.id}
-            renderItem={({ item }) => (
-                <Pressable
-                    style={styles.card_view}
-                    onPress={() => navigation.navigate("TelaVendas", { cliente: item })}
-                >
-                    <Text style={{ fontSize: 18 }}>{item.nome}</Text>
-                </Pressable>
-            )}
-        />
+        <View style= {styles.tela}>
+            
+            
+
+            <FlatList
+                style= {{marginTop:40}}
+                data={clientes}
+                keyExtractor={(item) => item.id}
+                renderItem={({ item }) => (
+                    <Pressable
+                        style={styles.card_view}
+                        onPress={() => navigation.navigate("TelaVendas", { cliente: item })}
+                    >
+                        <Text style={{ fontSize: 18 }}>{item.nome}</Text>
+                    </Pressable>
+
+                )}
+            /></View>
     );
 };
 

@@ -38,8 +38,9 @@ const TelaSelCarros = () => {
     };
 
     return (
-        <View>
+        <View style={styles.tela}>
             <FlatList
+            style= {{marginTop:40}}
                 data={carros}
                 keyExtractor={(item) => item.carro_id}
                 renderItem={({ item }) => (
@@ -48,7 +49,7 @@ const TelaSelCarros = () => {
                             {item.modelo} - R$ {item.valor.toFixed(2)}
                         </Text>
                         <Pressable
-                            style={[styles.botao_01, selecionados[item.carro_id] && styles.click]}
+                            style={[styles.botaoSelecionar, selecionados[item.carro_id] && styles.click, ]}
                             onPress={() =>
                                 setSelecionados(prev => ({ ...prev, [item.carro_id]: !prev[item.carro_id] }))
                             }
@@ -59,7 +60,7 @@ const TelaSelCarros = () => {
                         </Pressable>
                         {selecionados[item.carro_id] && (
                             <TextInput
-                                style={styles.TextInput}
+                                style={styles.TextInputSelecionar}
                                 placeholder="Quantidade"
                                 keyboardType="numeric"
                                 value={quantidades[item.carro_id] || '1'}
